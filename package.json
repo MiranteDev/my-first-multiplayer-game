@@ -1,0 +1,25 @@
+{
+  "name": "my-first-multiplayer-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiranteDev/my-first-multiplayer-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiranteDev/my-first-multiplayer-game/issues"
+  },
+  "homepage": "https://github.com/MiranteDev/my-first-multiplayer-game#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node": "^15.4.0",
+    "socket.io": "^3.0.5"
+  }
+}

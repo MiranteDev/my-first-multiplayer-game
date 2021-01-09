@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>My First Multiplayer Game</title>
+        <style>
+            #screen {
+                border: 1px solid #CCC;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;
+                image-rendering: -moz-crisp-edges;
+                width: 800px;
+                height: 800px;
+                -webkit-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+                -moz-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+                box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+                margin-bottom: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
+                display: inline-block;
+                vertical-align: top;
+            }
+        </style>
+    <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <canvas id="screen" width="20" height="20"></canvas>
+         <script type="module">
+        import renderScreen from './render-screen.js'
+
+        const socket = io()
+        const game = {} 
+        const screen = document.getElementById('screen')
+
+        socket.on('connect',()=>{
+            console.log(`Connect with id: ${socket.id}`)
+            
+            socket.on('init',(newGame)=>{
+                Object.assign(game, newGame)
+                renderScreen(screen, requestAnimationFrame,game,socket.id)
+            })
+            
+        })
+        socket.on('run',(newGame)=>{
+                Object.assign(game, newGame)
+                
+            }) 
+        function getMousePos(canvas, evt) {
+            var cRect = canvas.getBoundingClientRect();
+            var x = evt.clientX - cRect.left
+            var y = evt.clientY - cRect.top
+
+            for(var i=1;i<=20;i++){
+                if(x <= 40 * i && x >= 40 * (i - 1)){
+                    x = i -1
+                    break
+                }
+            }
+            for(var i=1;i<=20;i++){
+                if(y <= 40 * i && y >= 40 * (i - 1)){
+                    y = i -1
+                    break
+                }
+            }
+
+            return {
+                x: x,
+                y: y
+            };
+        }
+
+        screen.addEventListener('mousemove', function(evt){
+            const mousePosition = getMousePos(screen,evt)
+           // console.log(mousePosition)
+           socket.emit('move-player',mousePosition)      
+        })
+
+       
+        
+
+    </script>
+    </body>
+</html>
